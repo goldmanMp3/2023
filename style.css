@@ -21,11 +21,15 @@ body {
     place-content: center;
 
 
+
 }
 
 
 
-
+h1 {
+    font-size: 4em;
+    margin-left: 5%;
+}
 
 
 #informacion {
@@ -43,16 +47,20 @@ body {
 #botones {
     background-color: gold;
     padding: 1em;
+
     border-radius: 9px;
     align-self: center;
+
 
 }
 
 
+
 .boton i {
-    font-size: 2em;
+    font-size: 4em;
     margin-left: 0.4em;
     margin-right: 0.4em;
+
 }
 
 #botones button {
@@ -75,7 +83,7 @@ body {
 }
 
 #botones input[type="range"] {
-    width: 600px;
+    width: 1200px;
     height: 20px;
 
 
@@ -83,7 +91,7 @@ body {
 
 #botones progress {
     width: 80%;
-    height: 30px;
+    height: 90px;
     background: #ddd;
     border: 0;
     border-radius: 9px;
@@ -157,6 +165,7 @@ body {
     list-style: none;
     margin: 0;
     padding: 0;
+    font-size: 3em;
 
 }
 
@@ -174,8 +183,10 @@ body {
 
 
 #disc {
-    width: 80px;
+    width: 160px;
     height: auto;
+    align-items: center;
+    margin-left: 36%;
     animation: spin 3s linear infinite;
 
 
