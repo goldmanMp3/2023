@@ -1,0 +1,282 @@
+<html>
+
+<head>
+    <title>Reproductor de MP3</title>
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+    <div id="reproductor">
+
+        <div id="botones">
+
+            <h1>MP3 GOLDMAN</h1>
+
+            <button id="anterior" class="boton"><i class="fa-solid fa-backward icon"></i></button>
+            <button id="play" class="boton"><i class="fa-solid fa-play icon"></i></button>
+            <button id="pause" class="boton"><i class="fa-solid fa-pause icon"></i></button>
+            <button id="stop" class="boton"><i class="fa-solid fa-stop icon"></i></button>
+            <button id="siguiente" class="boton"><i class="fa-solid fa-forward icon"></i></button>
+        </div>
+        <br>
+        <div class="grupoinput">
+            <i class="fa-solid fa-volume-high"></i>
+            <input type="range" id="volumen" min="0" max="1" step="0.1" value="0.5">
+        </div>
+        <br>
+
+        <div class="grupoiprogreso">
+            <img id="disc" src="disc.png" alt="Disc Icon">
+            <br>
+            <i class="fa-solid fa-music"></i>
+            <progress id="progreso" value="0" max="100"></progress>
+
+        </div>
+        <br>
+
+        <div class="listaaudio">
+
+
+            <ul id="lista">
+
+                <li><i class="fa-solid fa-compact-disc"></i>Audioslave - Like a Stone </li>
+                <li><i class="fa-solid fa-compact-disc"></i>Bad Bunny - No Me Conoce</li>
+                <li> <i class="fa-solid fa-compact-disc"></i>OH WAH - APACHE</li>
+                <li> <i class="fa-solid fa-compact-disc"></i>PATH - DAMIAN MARLEY</li>
+                <li> <i class="fa-solid fa-compact-disc"></i>Bad Bunny -Jhay Cortez - Dákiti</li>
+                <li> <i class="fa-solid fa-compact-disc"></i>Rauw Alejandro - Nubes</li>
+
+
+            </ul>
+        </div>
+
+
+
+
+
+
+        <audio id="audio1" src="song1.mp3"></audio>
+        <audio id="audio2" src="song2.mp3"></audio>
+        <audio id="audio3" src="song3.mp3"></audio>
+        <audio id="audio4" src="song4.mp3"></audio>
+        <audio id="audio5" src="song5.mp3"></audio>
+        <audio id="audio6" src="song6.mp3"></audio>
+    </div>
+
+
+
+
+
+
+
+</body>
+<script>
+    const reproductor = document.getElementById("reproductor");
+    const play = document.getElementById("play");
+    const pause = document.getElementById("pause");
+    const stop = document.getElementById("stop");
+    const siguiente = document.getElementById("siguiente");
+    const anterior = document.getElementById("anterior");
+    const volumen = document.getElementById("volumen");
+    const progreso = document.getElementById("progreso");
+    const lista = document.getElementById("lista");
+    const audios = document.querySelectorAll("audio");
+
+    let indice = 0;
+
+    play.addEventListener("click", () => {
+        // Pausa todas las canciones
+        for (const audio of audios) {
+            audio.pause();
+        }
+        // Reproduce la canción actual
+        audios[indice].play();
+    });
+
+    pause.addEventListener("click", () => {
+        // Pausa la canción actual
+        audios[indice].pause();
+    });
+
+    stop.addEventListener("click", () => {
+        // Pausa y retrocede al inicio de la canción actual
+        audios[indice].pause();
+        audios[indice].currentTime = 0;
+    });
+
+    siguiente.addEventListener("click", () => {
+        // Pausa y avanza a la siguiente canción
+        audios[indice].pause();
+        indice++;
+        // Si llegamos al final de la lista, volvemos al principio
+        if (indice >= audios.length) {
+            indice = 0;
+        }
+        audios[indice].play();
+    });
+
+    anterior.addEventListener("click", () => {
+        // Pausa y retrocede a la canción anterior
+        audios[indice].pause();
+        indice--;
+        // Si llegamos al principio de la lista, avanzamos al final
+        if (indice < 0) {
+            indice = audios.length - 1;
+        }
+        audios[indice].play();
+    });
+
+    volumen.addEventListener("input", () => {
+        // Cambia el volumen de todas las canciones
+        for (const audio of audios) {
+            audio.volume = volumen.value;
+        }
+    });
+
+    progreso.addEventListener("click", (event) => {
+        // Calcula el tiempo de reproducción en el que se hizo click
+        const tiempo = (event.offsetX / progreso.offsetWidth) * audios[indice].duration;
+
+        // Cambia la posición de reproducción de la canción actual
+        audios[indice].currentTime = tiempo;
+    });
+
+    progreso.addEventListener("input", () => {
+        // Cambia la posición de reproducción de la canción actual
+        audios[indice].currentTime = (progreso.value / 100) * audios[indice].duration;
+    });
+
+    lista.addEventListener("click", (event) => {
+        // Reproduce la canción seleccionada de la lista
+        const elemento = event.target;
+        if (elemento.tagName === "LI") {
+            // Pausa la canción actual
+            audios[indice].pause();
+            // Obtiene el índice de la canción seleccionada
+            indice = Array.from(lista.children).indexOf(elemento);
+            // Retrocede al inicio de la canción seleccionada
+            audios[indice].currentTime = 0;
+            // Reproduce la canción seleccionada
+            audios[indice].play();
+        }
+    });
+
+    for (const audio of audios) {
+        audio.addEventListener("timeupdate", () => {
+            // Actualiza la barra de progreso
+            const porcentaje = (audio.currentTime / audio.duration) * 100;
+            progreso.value = porcentaje;
+        });
+        audio.addEventListener("ended", () => {
+            // Pasa a la siguiente canción al terminar la actual
+            siguiente.click();
+        });
+    }
+
+
+    // get the element
+    const el = document.getElementById("botones");
+
+    // initialize state
+    let isDragging = false;
+    let offset = { x: 0, y: 0 };
+
+    // add event listeners
+    el.addEventListener("mousedown", onMouseDown);
+    el.addEventListener("mouseup", onMouseUp);
+    el.addEventListener("mousemove", onMouseMove);
+
+    // event handlers
+    function onMouseDown(e) {
+        // set isDragging flag
+        isDragging = true;
+
+        // calculate offset
+        offset.x = e.clientX - el.offsetLeft;
+        offset.y = e.clientY - el.offsetTop;
+    }
+
+    function onMouseUp(e) {
+        // reset isDragging flag
+        isDragging = false;
+    }
+
+    function onMouseMove(e) {
+        if (isDragging) {
+            // set new position
+            el.style.left = (e.clientX - offset.x) + "px";
+            el.style.top = (e.clientY - offset.y) + "px";
+        }
+    }
+
+
+
+
+
+
+
+
+
+    // Crea un arreglo para almacenar las canciones en la lista de reproducción
+    var playlist = [];
+    for (var i = 0; i < audios.length; i++) {
+        playlist.push(audios[i].src);
+    }
+
+    // Crea una variable para almacenar el índice de la canción actual en la lista de reproducción
+    var currentSong = 0;
+
+    // Agrega un manejador de eventos al botón de reproducir
+    play.addEventListener("click", function () {
+        reproductor.src = playlist[currentSong];
+        reproductor.play();
+        var disc = document.getElementById("disc");
+        disc.style.animationPlayState = "running";
+    });
+
+    // Agrega un manejador de eventos al botón de pausa
+    pause.addEventListener("click", function () {
+        reproductor.pause();
+        var disc = document.getElementById("disc");
+        disc.style.animationPlayState = "paused";
+    });
+
+    // Agrega un manejador de eventos al botón de siguiente canción
+    siguiente.addEventListener("click", function () {
+        currentSong = (currentSong + 1) % playlist.length;
+        reproductor.src = playlist[currentSong];
+        reproductor.play();
+    });
+
+    // Agrega un manejador de eventos al botón de canción anterior
+    anterior.addEventListener("click", function () {
+        currentSong = (currentSong - 1 + playlist.length) % playlist.length;
+        reproductor.src = playlist[currentSong];
+        reproductor.play();
+    });
+
+    reproductor.addEventListener("ended", function () {
+        currentSong = (currentSong + 1) % playlist.length;
+        reproductor.src = playlist[currentSong];
+        reproductor.play();
+    });
+
+
+
+
+    play.addEventListener("click", function () {
+        reproductor.src = playlist[currentSong];
+        reproductor.play();
+        var disc = document.getElementById("disc");
+        disc.style.animationPlayState = "running";
+    });
+
+
+</script>
+
+</html>

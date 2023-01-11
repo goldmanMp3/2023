@@ -1,0 +1,193 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    background: green;
+    color: #333;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#reproductor {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px 0;
+    display: grid;
+    gap: 2px;
+    place-content: center;
+
+
+}
+
+
+
+
+
+
+#informacion {
+    display: flex;
+    align-self: center;
+    margin-bottom: 10px;
+}
+
+
+
+#titulo {
+    margin-left: 10px;
+}
+
+#botones {
+    background-color: gold;
+    padding: 1em;
+    border-radius: 9px;
+    align-self: center;
+
+}
+
+
+.boton i {
+    font-size: 2em;
+    margin-left: 0.4em;
+    margin-right: 0.4em;
+}
+
+#botones button {
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+    background-color: rgb(227, 227, 255);
+    cursor: pointer;
+    border-radius: 9px;
+
+}
+
+#botones button:hover {
+    background: rgb(69, 255, 109);
+}
+
+#botones button:active {
+    background: #aaa;
+}
+
+#botones input[type="range"] {
+    width: 600px;
+    height: 20px;
+
+
+}
+
+#botones progress {
+    width: 80%;
+    height: 30px;
+    background: #ddd;
+    border: 0;
+    border-radius: 9px;
+}
+
+#botones progress::-webkit-progress-bar {
+    background: #ddd;
+    border-radius: 6px;
+}
+
+#botones progress::-webkit-progress-value {
+    background: rgb(255, 0, 0);
+    border-radius: 6px;
+}
+
+#botones progress::-moz-progress-bar {
+    background: #333;
+    border-radius: 6px;
+}
+
+#lista {
+    width: 60%;
+    overflow: auto;
+    display: contents;
+
+}
+
+
+.grupoiprogreso {
+    background: gold;
+    padding: 2%;
+    border-radius: 9px;
+    font-size: 20px;
+    gap: 20px;
+    align-self: center;
+
+}
+
+.grupoiprogreso i {
+    margin-right: 10px;
+}
+
+
+.grupoinput {
+
+    background: gold;
+    padding: 2%;
+    border-radius: 9px;
+    font-size: 20px;
+    gap: 20px;
+}
+
+.grupoinput i {
+    margin-right: 10px;
+}
+
+
+.listaaudio {
+    background: gold;
+    padding: 2%;
+    border-radius: 9px;
+}
+
+.listaaudio i {
+    margin-right: 10px;
+}
+
+
+
+#reproductor ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+}
+
+#reproductor ul li {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    cursor: pointer;
+
+}
+
+#reproductor ul li:hover {
+    color: #333;
+}
+
+
+#disc {
+    width: 80px;
+    height: auto;
+    animation: spin 3s linear infinite;
+
+
+}
+
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
